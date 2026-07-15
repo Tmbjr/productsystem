@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 
 
+
+
 function cartButton() {
     
     function handleClick() {
@@ -18,7 +20,7 @@ export default function Catalog() {
 
     return (
         <div>
-            <header className="header">
+            <header className="catalogHeader">
                 <h1>Auto Parts Catalog</h1>
                 <button>Product List</button>
                 <button onClick = {() => setIsCartOpen(true)}>Cart</button>
@@ -30,10 +32,10 @@ export default function Catalog() {
 
             {isCartOpen && (
                 <div className="cartOverlay">
-                    <div className="cartHeader">
+                    <header className="cartHeader">
                         <h1>My Cart</h1>
                         <button onClick={() => setIsCartOpen(false)}>Close</button>
-                    </div>
+                    </header>
                     <div className="cartItems">
                         <div className="cartRow">
                             <PartCard />
@@ -52,36 +54,55 @@ export default function Catalog() {
                             <button className="removeButton" onClick={() => {}}>Remove</button>
                         </div>
                     </div>
-                    <div className="cartFooter">
-                        <p>Total: $XX.XX</p>
-                    </div>
+                    <footer className="cartFooter">
+                        <div className="orderSummary">
+                            <h3>Order Details</h3>
+                            <p>Subotal: $XX.XX</p>
+                            <p>Weight: X.XX lbs</p>
+                            <p>Shipping: $XX.XX</p>
+                            <p>Total: $XX.XX</p>
+                        </div>
+                        <div className="billingInfo">
+                            <h3>Billing Info</h3>
+                            <label className="billFormRow">
+                                <span className="billLabel">Name:</span>
+                                <input type="text" placeholder="John Doe"/>
+                            </label>
+                            <label className="billFormRow">
+                                <span className="billLabel">Email:</span>
+                                <input type="text" placeholder="jdoe@gmail.com"/>
+                            </label>
+                            <label className="billFormRow">
+                                <span className="billLabel">Address:</span>
+                                <input type="text" placeholder="123 Main St."/>
+                            </label>
+                            <label className="billFormRow">
+                                <span className="billLabel">CC:</span>
+                                <input type="text" placeholder="xxxx-xxxx-xxxx-xxxx"/>
+                            </label>
+                            <label className="billFormRow">
+                                <span className="billLabel">Exp.:</span>
+                                <input type="text" placeholder="mm/yy"/>
+                            </label>
+                        </div>
+                        <button className="checkoutButton">Checkout</button>
+                    </footer>
                 </div>
             )}
 
             <main className="productList">
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
-                <PartCard />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
+                <PartCard showAddToCart />
             </main>
         </div>
     );

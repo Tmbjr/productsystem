@@ -1,9 +1,28 @@
-
 .productCard {
-    height: 100px;
+    height: 140px;
     width: 70%;
     display: flex;
+    gap: 24px;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
 }
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
+}
+
+.addToCart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quantityLabel {
+   width: 80px;
+   flex-shrink: 0;
+}
+
