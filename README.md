@@ -1,4 +1,4 @@
-Startup (assuming node.js installed):
+# Startup (assuming node.js installed):
 
 1. Clone repo
 2. run `npm install`
