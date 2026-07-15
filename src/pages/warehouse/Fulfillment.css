@@ -1,0 +1,24 @@
+.header {
+    position: sticky;
+    top: 0;
+    background-color: blue;
+    padding: 5px 1px;
+
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 25px;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    text-align: left;
+    gap: 5px;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 1rem;
+}
