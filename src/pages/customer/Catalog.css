@@ -1,69 +1,76 @@
 /* div boundary visualization */
 /*
 div {
-  border: 1px solid red; 
+  border: 1px solid red;
   background-color: rgba(255, 0, 0, 0.05);
 }
 */
 
 .catalogHeader {
+  align-items: center;
+  background-color: #5787f7;
+  display: flex;
+  gap: 25px;
+  justify-content: left;
+  padding: 5px 20px;
+  padding-left: 25px;
   position: sticky;
   top: 0;
-  background-color: #5787f7;
-  padding: 5px 20px;
-
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  gap: 25px;
 }
 
-.searchBar {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    text-align: left;
-    gap: 5px;
+
+.searchInput {
+    font-size: 1rem;
+    padding: 10px 12px;
+    width: 250px;
 }
 
 .cartOverlay {
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 850px;
     background: gray;
     box-shadow: -10px 0 8px rgba(0,0,0,0.2);
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    z-index: 100;
+    height: 100vh;
     padding: 20px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 850px;
+    z-index: 100;
+}
+
+.cartOverlay .productInfo p {
+    color: black;
+}
+
+.cartOverlay .quantityLabel {
+    color: black;
 }
 
 
 .cartHeader {
-    display: flex;
-    justify-content: left;
     align-items: center;
-    gap: 25px;
-    flex-shrink: 0;
     border-bottom: 1px solid #ccc;
+    display: flex;
+    flex-shrink: 0;
+    gap: 25px;
+    justify-content: left;
     padding-bottom: 1px;
 }
 
 .cartItems {
-    max-height: 510px;
-    overflow-y: auto;
-    overscroll-behavior: contain;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    max-height: 510px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .cartRow {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
     width: 100%;
 }
@@ -73,30 +80,30 @@ div {
 }
 
 .orderSummary {
+   align-items: flex-start;
+   color: black;
    display: flex;
    flex-direction: column;
-   align-items: flex-start;
    text-align: left;
-   font-size: .85rem;
 }
 
 .billingInfo {
+    color: black;
     display: flex;
     flex-direction: column;
     text-align: left;
-
 }
 
 .billFormRow {
-    display: flex;
     align-items: center;
-    gap: 5px;
+    display: flex;
     font-size: .65rem;
+    gap: 5px;
 }
 
 .billLabel {
-    width: 80px;
     flex-shrink: 0;
+    width: 80px;
 }
 
 .checkoutButton {
@@ -104,11 +111,11 @@ div {
 }
 
 .cartFooter {
+    border-top: 1px solid #ccc;
     display: flex;
     flex-shrink: 0;
-    border-top: 1px solid #ccc;
-    padding-top: 20px;
     gap: 50px;
+    padding-top: 20px;
 }
 
 .productList {
@@ -119,6 +126,6 @@ div {
 }
 
 button {
-    padding: 12px 24px;
     font-size: 1rem;
+    padding: 12px 24px;
 }

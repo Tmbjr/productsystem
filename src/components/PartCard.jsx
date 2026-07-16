@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './PartCard.css';
 import stockImg from '../assets/stock_img.jpg';
 
-export default function ProductCard({ showAddToCart = false }) {
+export default function PartCard({ showAddToCart = false, quantity = 1, onQuantityChange}) {
 
     return (
         
@@ -16,12 +16,17 @@ export default function ProductCard({ showAddToCart = false }) {
             </div>
             <div className="addToCart">
                 <label>
-                    <span className="quantityLabel">Quantity:</span>
-                    <input type="number" className="qtyInput" min="1" defaultValue="1" />
+                    <span className="quantityLabel">Qty:</span>
+                    <input 
+                        type="number"
+                        className="qtyInput" 
+                        min="1" 
+                        value={quantity}
+                        onChange={(e) => onQuantityChange && onQuantityChange(Number(e.target.value))}
+                    />
                 </label>
-                { showAddToCart &&(
+                { showAddToCart && (
                     <button className="addButton">Add To Cart</button>
-                    
                 )}
             </div>
         </div>

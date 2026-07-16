@@ -2,57 +2,52 @@ import './Catalog.css';
 import PartCard from '../../components/PartCard';
 import { useState } from 'react';
 
-
-
-
-
-function cartButton() {
-    
-    function handleClick() {
-
-    }
-    
-
-}
-
 export default function Catalog() {
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const [quantities, setQuantities] = useState([1, 1, 1, 1]);
+
+    function handleQuantityChange(idx, newQty) {
+        const updated = [...quantities];
+        updated[idx] = newQty;
+        setQuantities(updated);
+    }
+
+    function handleAddItem() {
+    
+    }
+
+    function handleRemoveItem(removeIndex) {
+        setQuantities(quantities.filter((_, index) => index !== removeIndex));
+    }
+
+
+    const numItems = quantities.reduce((sum, qty) => sum + qty, 0);
 
     return (
         <div>
             <header className="catalogHeader">
                 <h1>Auto Parts Catalog</h1>
-                <button>Product List</button>
-                <button onClick = {() => setIsCartOpen(true)}>Cart</button>
-                <div className="searchBar">
-                    <input type="text" placeholder="query"/>
-                    <h6>Search Parts by Description</h6>
-                </div>
+                <button onClick = {() => setIsCartOpen(true)}>View Cart</button>
+                <input type="text" className="searchInput" placeholder="Filter parts by description"/>
             </header>
 
             {isCartOpen && (
                 <div className="cartOverlay">
                     <header className="cartHeader">
-                        <h1>My Cart</h1>
+                        <h1>My Cart({numItems})</h1>
                         <button onClick={() => setIsCartOpen(false)}>Close</button>
                     </header>
+
                     <div className="cartItems">
-                        <div className="cartRow">
-                            <PartCard />
-                            <button className="removeButton" onClick={() => {}}>Remove</button>
-                        </div>
-                        <div className="cartRow">
-                            <PartCard />
-                            <button className="removeButton" onClick={() => {}}>Remove</button>
-                        </div>
-                        <div className="cartRow">
-                            <PartCard />
-                            <button className="removeButton" onClick={() => {}}>Remove</button>
-                        </div>
-                        <div className="cartRow">
-                            <PartCard />
-                            <button className="removeButton" onClick={() => {}}>Remove</button>
-                        </div>
+                        {quantities.map((qty, index) => (
+                            <div className="cartRow" key={index}>
+                                <PartCard
+                                    quantity={qty}
+                                    onQuantityChange={(newQty) => handleQuantityChange(index, newQty)}
+                                />
+                                <button className="removeButton" onClick={() => handleRemoveItem(index)}>Remove</button>
+                            </div>
+                        ))}
                     </div>
                     <footer className="cartFooter">
                         <div className="orderSummary">
