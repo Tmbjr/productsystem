@@ -1,34 +1,60 @@
 import './Catalog.css';
 import PartCard from '../../components/PartCard';
+import mockParts from '../../data/mockParts';
 import { useState } from 'react';
 
 export default function Catalog() {
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const [quantities, setQuantities] = useState([1, 1, 1, 1]);
+    const [cartItems, setCartItems] = useState([]);
+    const [partList, filterPartList] = useState(mockParts);
 
-    function handleQuantityChange(idx, newQty) {
-        const updated = [...quantities];
-        updated[idx] = newQty;
-        setQuantities(updated);
+    //partInfo {partNumber: x, quantity: x}
+    function handleAddItem(partInfo) {
+        if (!cartItems.some(item => item.partNumber === partInfo.partNumber)) {
+            const updatedCart = [...cartItems, partInfo];
+            setCartItems(updatedCart);
+
+        } else {
+            const item = cartItems.find(i => i.partNumber === partInfo.partNumber);
+            handleQuantityChange(partInfo.partNumber, partInfo.quantity + item.quantity)
+        }
     }
-
-    function handleAddItem() {
     
+    function handleQuantityChange(updatePartNo, newQty) {
+        setCartItems(
+            cartItems.map((item) =>
+                item.partNumber === updatePartNo
+                ? {...item, quantity: newQty}
+                : item
+            )
+        );
+    }    
+
+    function handleRemoveItem(removePartNo) {
+        setCartItems(cartItems.filter((element, index, cartItems) => element.partNumber !== removePartNo));
     }
 
-    function handleRemoveItem(removeIndex) {
-        setQuantities(quantities.filter((_, index) => index !== removeIndex));
+    function filterParts(query) {
+        filterPartList(mockParts.filter((element, index, mockParts) =>
+            element.description.toLowerCase().startsWith(query.toLowerCase(), 0)
+        ))
     }
 
-
-    const numItems = quantities.reduce((sum, qty) => sum + qty, 0);
+    const numItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = cartItems.reduce((sum, item) => sum + (mockParts[item.partNumber - 1].price * item.quantity), 0);
+    const totalWeight = cartItems.reduce((sum, item) => sum + (mockParts[item.partNumber - 1].weight * item.quantity), 0);
 
     return (
         <div>
             <header className="catalogHeader">
                 <h1>Auto Parts Catalog</h1>
-                <button onClick = {() => setIsCartOpen(true)}>View Cart</button>
-                <input type="text" className="searchInput" placeholder="Filter parts by description"/>
+                <button onClick = {() => setIsCartOpen(true)}>View Cart ({numItems})</button>
+                <input
+                    type="text"
+                    className="searchInput"
+                    onChange={(e) => filterParts(e.target.value)}
+                    placeholder="Filter parts by description"
+                />
             </header>
 
             {isCartOpen && (
@@ -39,21 +65,28 @@ export default function Catalog() {
                     </header>
 
                     <div className="cartItems">
-                        {quantities.map((qty, index) => (
-                            <div className="cartRow" key={index}>
+                        {cartItems.map((item, index) => (
+                            <div className="cartRow" key={item.partNumber}>
                                 <PartCard
-                                    quantity={qty}
-                                    onQuantityChange={(newQty) => handleQuantityChange(index, newQty)}
+                                    quantity={item.quantity}
+                                    onQuantityChange={(newQty) => handleQuantityChange(item.partNumber, newQty)}
+                                    part={mockParts.find(p => p.partNumber === item.partNumber)}
                                 />
-                                <button className="removeButton" onClick={() => handleRemoveItem(index)}>Remove</button>
+                                <button
+                                    className="removeButton"
+                                    onClick={() => handleRemoveItem(item.partNumber)}
+                                >
+                                    Remove
+                                </button>
                             </div>
                         ))}
                     </div>
+
                     <footer className="cartFooter">
                         <div className="orderSummary">
                             <h3>Order Details</h3>
-                            <p>Subotal: $XX.XX</p>
-                            <p>Weight: X.XX lbs</p>
+                            <p>Subotal: ${subtotal.toFixed(2)}</p>
+                            <p>Weight: {totalWeight.toFixed(2)} lbs</p>
                             <p>Shipping: $XX.XX</p>
                             <p>Total: $XX.XX</p>
                         </div>
@@ -82,22 +115,19 @@ export default function Catalog() {
                         </div>
                         <button className="checkoutButton">Checkout</button>
                     </footer>
+
                 </div>
             )}
 
             <main className="productList">
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
-                <PartCard showAddToCart />
+                {partList.map((part) => (
+                    <PartCard 
+                        key={part.partNumber}
+                        part={part} 
+                        showAddToCart 
+                        onAddToCart={(qty) => handleAddItem({partNumber: part.partNumber, quantity: qty})}
+                    />
+                ))}
             </main>
         </div>
     );

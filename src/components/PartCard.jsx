@@ -2,16 +2,25 @@ import { useState } from 'react';
 import './PartCard.css';
 import stockImg from '../assets/stock_img.jpg';
 
-export default function PartCard({ showAddToCart = false, quantity = 1, onQuantityChange}) {
+export default function PartCard({ showAddToCart = false, quantity = 1, onQuantityChange, onAddToCart, part}) {
+    
+    const [qty, setQty] = useState(quantity);
+
+    function handleQuantityChange(e) {
+        const newQty = Number(e.target.value);
+        setQty(newQty);
+        onQuantityChange && onQuantityChange(newQty);
+    }
+
 
     return (
         
         <div className="productCard">
             <img src={stockImg} alt={'stock product image'}/>
             <div className="productInfo">
-                <p>description</p>
-                <p>price</p>
-                <p>weight</p>
+                <p>{part.description}</p>
+                <p>${part.price.toFixed(2)}</p>
+                <p>{part.weight.toFixed(2)} lbs</p>
                 <p>qty available</p>
             </div>
             <div className="addToCart">
@@ -21,12 +30,17 @@ export default function PartCard({ showAddToCart = false, quantity = 1, onQuanti
                         type="number"
                         className="qtyInput" 
                         min="1" 
-                        value={quantity}
-                        onChange={(e) => onQuantityChange && onQuantityChange(Number(e.target.value))}
+                        value={qty}
+                        onChange={handleQuantityChange}
                     />
                 </label>
                 { showAddToCart && (
-                    <button className="addButton">Add To Cart</button>
+                    <button 
+                        className="addButton"
+                        onClick={() => onAddToCart(qty)}
+                    >
+                        Add To Cart
+                    </button>
                 )}
             </div>
         </div>
