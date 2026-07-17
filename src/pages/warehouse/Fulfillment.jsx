@@ -38,7 +38,7 @@ export default function Fulfillment() {
                     <p className="fulfillmentBody">123 Main St, DeKalb, IL 60155</p>
                     <p className="fulfillmentBody">Order confirmation will be sent to: johndoe@gmail.com</p>
                     <p className="fulfillmentSection">Order will be marked as fulfilled.</p>
-                    <button>Complete Order</button>
+                    <button>Fulfill Order</button>
 
 
                 </div>

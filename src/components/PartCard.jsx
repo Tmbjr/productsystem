@@ -12,9 +12,12 @@ export default function PartCard({ showAddToCart = false, quantity = 1, onQuanti
         onQuantityChange && onQuantityChange(newQty);
     }
 
+    function handleAddClick() {
+        onAddToCart(qty);
+        setQty(1);
+    }
 
     return (
-        
         <div className="productCard">
             <img src={stockImg} alt={'stock product image'}/>
             <div className="productInfo">
@@ -37,14 +40,12 @@ export default function PartCard({ showAddToCart = false, quantity = 1, onQuanti
                 { showAddToCart && (
                     <button 
                         className="addButton"
-                        onClick={() => onAddToCart(qty)}
+                        onClick={handleAddClick}
                     >
                         Add To Cart
                     </button>
                 )}
             </div>
         </div>
-
-
     );
 }
