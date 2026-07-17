@@ -58,6 +58,7 @@ export default function Catalog() {
         setCartItems(cartItems.filter((element) => 
             element.partNumber !== removePartNo
         ));
+        
     }
 
     //filters parts visible in the catalog by description.
@@ -143,21 +144,25 @@ export default function Catalog() {
                         </header>
 
                         <div className="cartItems">
-                            {cartItems.map((item, index) => (
-                                <div className="cartRow" key={item.partNumber}>
-                                    <PartCard
-                                        quantity={item.quantity}
-                                        onQuantityChange={(newQty) => handleQuantityChange(item.partNumber, newQty)}
-                                        part={mockParts.find(p => p.partNumber === item.partNumber)}
-                                    />
-                                    <button
-                                        className="removeButton"
-                                        onClick={() => handleRemoveItem(item.partNumber)}
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                            ))}
+                            {cartItems.map((item) => {
+                                const part = mockParts.find(p => p.partNumber === item.partNumber);
+                                return (
+                                    <div className="cartRow" key={item.partNumber}>
+                                        <PartCard
+                                            quantity={item.quantity}
+                                            onQuantityChange={(newQty) => handleQuantityChange(item.partNumber, newQty)}
+                                            part={part}
+                                            available={part.qtyAvailable}
+                                        />
+                                        <button
+                                            className="removeButton"
+                                            onClick={() => handleRemoveItem(item.partNumber)}
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <footer className="cartFooter">
@@ -263,14 +268,20 @@ export default function Catalog() {
             )}
 
             <main className="productList">
-                {partList.map((part) => (
-                    <PartCard 
-                        key={part.partNumber}
-                        part={part} 
-                        showAddToCart 
-                        onAddToCart={(qty) => handleAddItem({partNumber: part.partNumber, quantity: qty})}
-                    />
-                ))}
+                {partList.map((part) =>  {
+                    const qtyInCart = cartItems.find(i => i.partNumber === part.partNumber)?.quantity || 0;
+                    const available = part.qtyAvailable - qtyInCart;
+                    return (
+                        <PartCard 
+                            key={part.partNumber}
+                            part={part} 
+                            available={available}
+                            showAddToCart 
+                            onAddToCart={(qty) => handleAddItem({partNumber: part.partNumber, quantity: qty})}
+                        />
+
+                    );
+                })}
             </main>
         </div>
     );
